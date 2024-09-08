@@ -13,20 +13,19 @@ import { ClientPage } from './pages/client-page';
 import { RoomPage } from './pages/room-page';
 
 
-
 test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
 
 
-  
-  test('TC1 Test login function and verify to see homepage', async ({ page }) => {
-
+  test.beforeEach(async ({ page }) => {
+    console.log('Logging in before each test');
     const loginpage = new LoginPage(page);
-  
     await loginpage.goto();
-  
-    await expect(page.locator('input[type="password"]')).toBeEditable();
-  
     await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
+    
+  });
+
+ 
+  test('TC1 Test login function and verify to see homepage', async ({ page }) => {
   
     await expect(page.getByRole('heading', { name: 'Tester Hotel Overview' })).toBeVisible();
   
@@ -36,15 +35,8 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
   test('TC2 Test that room links work', async ({ page }) => {
   
-    const loginpage = new LoginPage(page);
-  
     const dashboardpage= new DashboardPage(page);
   
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
-  
-    // assert room link is enabled 
     
     await expect(page.locator('#app > div > div > div:nth-child(1) > a')).toBeEnabled();
   
@@ -60,23 +52,15 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
   test('TC3 Create a room and delete the room you created', async ({ page }) => {
   
-    const loginpage = new LoginPage(page);
-  
     const roompage= new RoomPage(page);
   
     const dashboardpage= new DashboardPage(page);
-  
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
   
     await dashboardpage.clickonviewlinkforroom();
   
     await roompage.creaateroom();
   
     await expect(page.getByText('Features: penthouse')).toBeVisible()
-  
-    // assert that choice of Penthouse for roomtype and roomtype double is visible on the room list 
   
     await expect(page.getByText('Category: twin')).not.toBeHidden();
   
@@ -92,15 +76,9 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
   test('TC4 validate back button works from reservation page', async ({ page }) => {
   
-    const loginpage = new LoginPage(page); 
-  
     const dashboardpage= new DashboardPage(page);
   
     const reservationpage= new ReservationPage(page);
-  
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
   
     await dashboardpage.clickonviewlinkforreservation();
   
@@ -116,23 +94,11 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
   test('TC5 Delete a client and then add the same client again ', async ({ page }) => {
   
-    // why we do this beacue to get a more robust and resilient test 
-  
-    const loginpage = new LoginPage(page); 
-  
     const dashboardpage= new DashboardPage(page);
   
     const clientpage= new ClientPage(page);
   
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
-  
     await dashboardpage.clickonviewlinkforclient();
-  
-    // check that img element works you can click on it is enabled 
-   
-    // await expect(page.getByRole('img').nth(1)).not.toBeDisabled();
   
     await clientpage.deleteclient();
   
@@ -142,28 +108,18 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
     await expect(page.locator('#app')).toContainText('ME Mikael Eriksson (#2)Email: mikael.eriksson@example.comTelephone: 070 000 0002');
   
-   
-  
   });
   
   test('TC6 edit a existings clients all info and then edit all the info back,', async ({ page }) => {
-  
-    const loginpage = new LoginPage(page); 
   
     const dashboardpage= new DashboardPage(page);
   
     const clientpage= new ClientPage(page);
   
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
-  
     await dashboardpage.clickonviewlinkforclient();
   
     await clientpage.uppdateclientsname();
-  
-    // ensure that all users original information is gone from clients list 
-  
+   
     await expect(page.getByRole('heading', { name: 'Mikael Eriksson (#2)' })).not.toBeVisible();
   
     await expect(page.getByText('Email: mikael.eriksson@')).toBeHidden();
@@ -172,29 +128,20 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
     
     await clientpage.uppdateclientsnametooriginalname();
   
-    // ensure that users all original information is in the list of clients list 
-  
     await expect(page.locator('#app')).toContainText('ME Mikael Eriksson (#2)Email: mikael.eriksson@example.comTelephone: 070 000 0002');
   
   });
   
   test('TC7 Validate negative value error message appears when creating bill', async ({ page }) => {
   
-    const loginpage = new LoginPage(page); 
-  
     const dashboardpage= new DashboardPage(page);
   
     const billpage= new BillPage(page);
   
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
   
     await dashboardpage.clickonviewlinkforbill();
   
     await billpage.fillinnegativebillvalue();
-  
-    // ensure error message is visible for the user
   
     await expect(page.locator('#app > div > div.error')).toBeVisible();
   
@@ -203,21 +150,13 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
   test('TC8 pay a bill check that is been checked', async ({ page }) => {
   
-    const loginpage = new LoginPage(page); 
-  
     const dashboardpage= new DashboardPage(page);
   
     const billpage= new BillPage(page);
   
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
-  
     await dashboardpage.clickonviewlinkforbill();
   
     await billpage.checkthatbillispaid();
-  
-    // ensure that bill is checked by assert that text paid is not having a roll of checkbox and that the chexbox has been checked by having ✓ symbol 
   
     await expect(page.getByText('✓')).not.toHaveRole("checkbox");
   
@@ -228,7 +167,31 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
   });
   
-  test('TC9 Validate error messege shows when wrong password on loginpage and ensure dont get to homepage', async ({ page }) => {
+  test('TC9 validate get right error messages to wrong useraction', async ({ page }) => {
+ 
+    const dashboardpage= new DashboardPage(page);
+  
+    const roompage= new RoomPage(page);
+  
+  
+    await dashboardpage.clickonviewlinkforroom();
+  
+    await roompage.createroomwrongway();
+  
+    await expect(page.getByText('Floor must be set')).toBeVisible();
+  
+    await expect(page.getByText('Price must be a whole number')).toBeVisible();
+  
+    await expect(page.getByText('Roomnumber must be set')).not.toBeVisible();
+  
+  
+  });
+
+});
+
+test.describe('Testsuite2 Hotell APP for Nackademin school just for test wrong inlogg', () => {
+
+  test('TC10 Validate error messege shows when wrong password on loginpage and ensure dont get to homepage', async ({ page }) => {
   
     const loginpage = new LoginPage(page); 
   
@@ -244,45 +207,7 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
     await expect(page.getByRole('heading', { name: 'Tester Hotel Overview' })).toBeHidden();
   
   });
-
   
-
-
-
-});
-
-test.describe('Testsuite2 Hotell APP for Nackademin school just for test wrong inlogg', () => {
-
-  test('TC10 validate get right error messages to wrong useraction', async ({ page }) => {
-
-    const loginpage = new LoginPage(page); 
-  
-    const dashboardpage= new DashboardPage(page);
-  
-    const roompage= new RoomPage(page);
-  
-    await loginpage.goto();
-  
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
-  
-    await dashboardpage.clickonviewlinkforroom();
-  
-    // create room without a price and roomfloor
-  
-    await roompage.createroomwrongway();
-  
-    await expect(page.getByText('Floor must be set')).toBeVisible();
-  
-    await expect(page.getByText('Price must be a whole number')).toBeVisible();
-  
-    await expect(page.getByText('Roomnumber must be set')).not.toBeVisible();
-  
-  
-  });
-  
-
-
-
 });
 
 

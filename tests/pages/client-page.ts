@@ -4,7 +4,6 @@ import { faker } from "@faker-js/faker";
 
 export class ClientPage {
 
-    //Attributes
     readonly page: Page;
     readonly createclientbutton:Locator;
     readonly clientlink:Locator;
@@ -21,6 +20,7 @@ export class ClientPage {
     readonly editclientphonefiled:Locator;
     
     constructor(page: Page) {
+        
        this.page=page;
        this.createclientbutton=page.getByRole('link', { name: 'Create Client' });
        this.savebutton=page.getByText('Save');

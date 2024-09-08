@@ -1,7 +1,7 @@
 import {  type Locator, type Page } from '@playwright/test';
 
 export class BillPage {
-  //Attributes
+  
   readonly page: Page;
   readonly createbillbutton:Locator;
   readonly inputfieldbill:Locator;
@@ -12,6 +12,7 @@ export class BillPage {
 
   
   constructor(page: Page) {
+    
     this.page=page;
     this. createbillbutton=page.getByRole('link', { name: 'Create Bill' });
     this.inputfieldbill=page.getByRole('spinbutton');
@@ -20,8 +21,6 @@ export class BillPage {
     this.billeditchoice= page.getByText('Edit')
     this.choiceofeditbill=page.getByRole('img')
 
-    
-    
   }
 
    async fillinnegativebillvalue() {

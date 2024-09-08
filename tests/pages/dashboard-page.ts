@@ -45,6 +45,3 @@ export class DashboardPage {
 
 
 
-// Vilka funktioner ska vi använda här ? 
-
-// vilka element 

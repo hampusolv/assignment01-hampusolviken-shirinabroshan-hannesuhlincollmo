@@ -1,7 +1,7 @@
 import {  type Locator, type Page } from '@playwright/test';
 
 export class ReservationPage {
-  //Attributes
+  
   readonly page: Page;
   readonly backbutton:Locator;
 
@@ -17,6 +17,3 @@ export class ReservationPage {
 }
 
 
-// Vilka funktioner ska vi använda här ? 
-
-// vilka element 

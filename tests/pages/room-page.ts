@@ -3,7 +3,7 @@ import {  type Locator, type Page } from '@playwright/test';
 import { faker } from "@faker-js/faker";
 
 export class RoomPage {
-  //Attributes
+  
   readonly page: Page;
   readonly createroombutton: Locator;
   readonly fieldroomnumber: Locator;
