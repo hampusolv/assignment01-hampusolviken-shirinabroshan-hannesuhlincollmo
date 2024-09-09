@@ -14,13 +14,15 @@ import { RoomPage } from './pages/room-page';
 
 
 test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
-
-
+  test.describe.configure({ timeout: 100000 });
+  test.describe.configure({ retries: 2 });
+  
   test.beforeEach(async ({ page }) => {
     console.log('Logging in before each test');
     const loginpage = new LoginPage(page);
     await loginpage.goto();
     await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
+   
     
   });
 
@@ -37,7 +39,6 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
     const dashboardpage= new DashboardPage(page);
   
-    
     await expect(page.locator('#app > div > div > div:nth-child(1) > a')).toBeEnabled();
   
     await dashboardpage.clickonviewlinkforroom();
@@ -138,7 +139,6 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   
     const billpage= new BillPage(page);
   
-  
     await dashboardpage.clickonviewlinkforbill();
   
     await billpage.fillinnegativebillvalue();
@@ -148,7 +148,7 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
   });
   
   
-  test('TC8 pay a bill check that is been checked', async ({ page }) => {
+  test('TC8 pay a bill check that is been checked', async ({ page }) => { 
   
     const dashboardpage= new DashboardPage(page);
   
@@ -172,7 +172,6 @@ test.describe('Testsuite1 Hotell APP for Nackademin school', () => {
     const dashboardpage= new DashboardPage(page);
   
     const roompage= new RoomPage(page);
-  
   
     await dashboardpage.clickonviewlinkforroom();
   

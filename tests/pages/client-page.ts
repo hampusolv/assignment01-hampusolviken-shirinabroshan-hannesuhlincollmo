@@ -34,8 +34,7 @@ export class ClientPage {
        this.editclientnamefield=page.locator('#app > div > div:nth-child(2) > div:nth-child(3) > input[type=text]');
        this.editclientemailfield=page.locator('#app > div > div:nth-child(2) > div:nth-child(4) > input[type=email]');
        this.editclientphonefiled=page.locator('#app > div > div:nth-child(2) > div:nth-child(5) > input[type=text]');
-       
-       
+         
     }
     
     async uppdateclientsname() {

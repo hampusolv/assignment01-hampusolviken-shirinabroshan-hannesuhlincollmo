@@ -39,4 +39,7 @@ export class BillPage {
     await this.billcheckbox.click();
     
   }
+
 }
+
+
