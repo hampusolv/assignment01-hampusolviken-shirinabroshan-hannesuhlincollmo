@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from './pages/login-page';
 import { DashboardPage } from './pages/dashboard-page';
 import { BillPage } from './pages/bill-page';
+import { ReservationPage } from './pages/resevation';
 
 
 
@@ -19,11 +20,12 @@ test('TC2 Test that room links work', async ({ page }) => {
   const dashboardpage = new DashboardPage(page);
 
   await loginpage.goto();
-  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`); await dashboardpage.clickonviewlinkforroom();
-  await dashboardpage.clickonviewlinkforroom();
+  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);
 
+  await dashboardpage.clickonviewlinkforroom();
   await expect(page.getByText('Rooms')).toBeVisible();
 });
+
 test('TC3 Creat a room', async ({ page }) => {
   await page.goto('http://localhost:3000/login');
   await page.locator('input[type="text"]').click();
@@ -54,14 +56,18 @@ test('TC3 Creat a room', async ({ page }) => {
 
 
 test('TC4 test that back button works', async ({ page }) => {
-  await page.goto('http://localhost:3000/login');
-  await page.locator('input[type="text"]').click();
-  await page.locator('input[type="text"]').fill('tester01');
-  await page.locator('input[type="password"]').click();
-  await page.locator('input[type="password"]').fill('GteteqbQQgSr88SwNExUQv2ydb7xuf8c');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await page.locator('div').filter({ hasText: /^ReservationsTotal: 1Current: 0View$/ }).getByRole('link').click();
-  await page.getByRole('link', { name: 'Back' }).click();
+  const loginpage = new LoginPage(page);
+  await loginpage.goto();
+  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);
+
+  const dashboradpage = new DashboardPage(page);
+  await dashboradpage.clickonviewlinkforresevation();
+  //await page.locator('div').filter({ hasText: /^ReservationsTotal: 1Current: 0View$/ }).getByRole('link').click();
+  const reservationpage =new ReservationPage (page);
+  await reservationpage .backbuttonwork();
+
+
+  //await page.getByRole('link', { name: 'Back' }).click();
   await expect(page.getByRole('heading', { name: 'Tester Hotel Overview' })).toBeVisible();
 });
 
@@ -104,23 +110,14 @@ test('TC6 edit a existings clients name', async ({ page }) => {
 test('TC7 Validate negative value when creating bill', async ({ page }) => {
   const loginpage = new LoginPage(page);
   await loginpage.goto();
-  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);  /*await page.goto('http://localhost:3000/login');
-  await page.locator('input[type="text"]').click();
-  await page.locator('input[type="text"]').fill('tester01');
-  await page.locator('input[type="password"]').click();
-  await page.locator('input[type="password"]').fill('GteteqbQQgSr88SwNExUQv2ydb7xuf8c');
-  await page.getByRole('button', { name: 'Login' }).click();*/
+  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);  
 
   const dashboradpage = new DashboardPage(page);
   await dashboradpage.clickonviewlinkforbill();
-  //await page.locator('div').filter({ hasText: /^BillsTotal: 1 \(4500kr\)Paid: 0 \(0kr\)View$/ }).getByRole('link').click();
+
   const billpage = new BillPage(page);
   await billpage.createwornginputbill();
 
-  /*await page.getByRole('link', { name: 'Create Bill' }).click();
-  await page.getByRole('spinbutton').click();
-  await page.getByRole('spinbutton').fill('-100');
-  await page.getByText('Save').click();*/
   await expect(page.getByText('Value must be greater than')).toBeVisible();
 });
 
@@ -144,11 +141,11 @@ test('TC8 pay a bill and check if it disapear', async ({ page }) => {
 
 
 test('TC9 Validate error messege wrong password', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  await loginPage.goto();
+  const loginpage = new LoginPage(page);
+  await loginpage.goto();
+  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_BADPASSWORD}`);
   //await page.goto('http://localhost:3000/login');
-
-  await loginPage.WorngperformLogin(`${process.env.USERNAME}`, `${process.env.BADPASSWORD}`);
+  /*await page.goto('http://localhost:3000/login');
   /*await page.locator('input[type="text"]').click();
   await page.locator('input[type="text"]').fill('tester01');
   await page.locator('input[type="password"]').click();
