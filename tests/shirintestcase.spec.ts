@@ -3,7 +3,9 @@ import { LoginPage } from './pages/login-page';
 import { DashboardPage } from './pages/dashboard-page';
 import { BillPage } from './pages/bill-page';
 import { ReservationPage } from './pages/resevation';
-
+import { ClientListPage } from './pages/clientlist-page';
+import { ClientCreatePage } from './pages/clientcreate-page';
+import { ClientEditPage } from './pages/editclient-page';
 
 
 test('TC1 Test login and see homepage', async ({ page }) => {
@@ -63,9 +65,8 @@ test('TC4 test that back button works', async ({ page }) => {
   const dashboradpage = new DashboardPage(page);
   await dashboradpage.clickonviewlinkforresevation();
   //await page.locator('div').filter({ hasText: /^ReservationsTotal: 1Current: 0View$/ }).getByRole('link').click();
-  const reservationpage =new ReservationPage (page);
-  await reservationpage .backbuttonwork();
-
+  const reservationpage = new ReservationPage(page);
+  await reservationpage.backbuttonwork();
 
   //await page.getByRole('link', { name: 'Back' }).click();
   await expect(page.getByRole('heading', { name: 'Tester Hotel Overview' })).toBeVisible();
@@ -74,43 +75,71 @@ test('TC4 test that back button works', async ({ page }) => {
 
 
 test('TC5 Delete a client', async ({ page }) => {
-  await page.goto('http://localhost:3000/login');
-  await page.locator('input[type="text"]').click();
-  await page.locator('input[type="text"]').fill('tester01');
-  await page.locator('input[type="password"]').click();
-  await page.locator('input[type="password"]').fill('GteteqbQQgSr88SwNExUQv2ydb7xuf8c');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await page.locator('div').filter({ hasText: /^ClientsNumber: 2View$/ }).getByRole('link').click();
-  await expect(page.getByRole('heading', { name: 'Jonas Hellman (#1)' })).toBeVisible();
-  await page.getByRole('img').first().click();
-  await page.getByText('Delete').click();
+  const loginpage = new LoginPage(page);
+  await loginpage.goto();
+  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);
+  // await page.goto('http://localhost:3000/login');
+  // await page.locator('input[type="text"]').click();
+  //await page.locator('input[type="text"]').fill('tester01');
+  //await page.locator('input[type="password"]').click();
+  //await page.locator('input[type="password"]').fill('GteteqbQQgSr88SwNExUQv2ydb7xuf8c');
+  //await page.getByRole('button', { name: 'Login' }).click();
+
+  const dashboradpage = new DashboardPage(page);
+  await dashboradpage.clickonviewlinkforclient();
+  //await page.locator('div').filter({ hasText: /^ClientsNumber: 2View$/ }).getByRole('link').click();
+
+  //await expect(page.getByRole('heading', { name: 'Mikael Eriksson (#2)' })).toBeVisible();
+
+  const clientdelete = new ClientListPage(page);
+  await clientdelete.deleteclient();
+  //await page.getByRole('img').first().click();
+  //await page.getByText('Delete').click();
+
+  //createClinet för att ha en hålbarhet kod
+  const createclient = new ClientCreatePage(page);
+  await createclient.createclient();
 });
 
 
 
 test('TC6 edit a existings clients name', async ({ page }) => {
-  await page.goto('http://localhost:3000/login');
+  const loginpage = new LoginPage(page);
+  await loginpage.goto();
+  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);
+
+  /*await page.goto('http://localhost:3000/login');
   await page.locator('input[type="text"]').click();
   await page.locator('input[type="text"]').fill('tester01');
   await page.locator('input[type="password"]').click();
   await page.locator('input[type="password"]').fill('GteteqbQQgSr88SwNExUQv2ydb7xuf8c');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await page.locator('div').filter({ hasText: /^ClientsNumber: 2View$/ }).getByRole('link').click();
-  await expect(page.getByRole('heading', { name: 'Mikael Eriksson (#2)' })).toBeVisible();
-  await page.getByRole('img').nth(1).click();
-  await page.getByText('Edit').click();
-  await page.locator('div').filter({ hasText: /^Name$/ }).getByRole('textbox').click();
-  await page.locator('div').filter({ hasText: /^Name$/ }).getByRole('textbox').fill('Hannes Uhlin Collmo');
-  await page.locator('div').filter({ hasText: /^Name$/ }).getByRole('textbox').click();
-  await page.getByText('Save').click();
-  await expect(page.getByRole('heading', { name: 'Hannes Uhlin Collmo (#2)' })).toBeVisible();
+  await page.getByRole('button', { name: 'Login' }).click();*/
+
+  const dashboradpage = new DashboardPage(page);
+  await dashboradpage.clickonviewlinkforclient();
+  // await page.locator('div').filter({ hasText: /^ClientsNumber: 2View$/ }).getByRole('link').click();
+
+  //await expect(page.getByRole('heading', { name: 'Mikael Eriksson (#2)' })).toBeVisible();
+
+  const clientedit = new ClientListPage(page);
+  await clientedit.editclient();
+  //await page.getByRole('img').nth(1).click();
+  //await page.getByText('Edit').click();
+  const clientnewedit = new ClientEditPage(page);
+  await clientnewedit.newdataeditclient();
+
+  /* await page.locator('div').filter({ hasText: /^Name$/ }).getByRole('textbox').click();
+   await page.locator('div').filter({ hasText: /^Name$/ }).getByRole('textbox').fill('Hannes Uhlin Collmo');
+   await page.locator('div').filter({ hasText: /^Name$/ }).getByRole('textbox').click();
+   await page.getByText('Save').click();*/
+  await expect(page.getByRole('heading', { name: 'shirin (#2)' })).toBeVisible();
 });
 
 
 test('TC7 Validate negative value when creating bill', async ({ page }) => {
   const loginpage = new LoginPage(page);
   await loginpage.goto();
-  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);  
+  await loginpage.performLogin(`${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);
 
   const dashboradpage = new DashboardPage(page);
   await dashboradpage.clickonviewlinkforbill();
