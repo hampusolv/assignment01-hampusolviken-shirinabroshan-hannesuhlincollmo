@@ -4,11 +4,13 @@ import { LoginPage } from './pages/login-page';
 
 import { DashboardPage } from './pages/dashboard-page'; 
 
-import { RoomlistPage } from './pages/roomview-page';
+import { RoomviewPage } from './pages/roomview-page';
 
 import { RoomCreatePage } from './pages/roomcreate-page';
 
 import { faker } from "@faker-js/faker";
+
+
 
 test.describe('Hannestestsuite', () => {
   
@@ -26,7 +28,7 @@ test.describe('Hannestestsuite', () => {
   
     const dashboardpage= new DashboardPage(page);
 
-    const roompageview= new RoomlistPage(page);
+    const roompageview= new RoomviewPage(page);
   
     await expect(page.locator('#app > div > div > div:nth-child(1) > a')).toBeEnabled();
   
@@ -47,7 +49,7 @@ test.describe('Hannestestsuite', () => {
   
   test('TC3 Create two new room and delete the first room you created', async ({ page }) => {
   
-    const roompagelist= new RoomlistPage(page);
+    const roompagelist= new RoomviewPage(page);
   
     const dashboardpage= new DashboardPage(page);
 
@@ -93,7 +95,7 @@ test.describe('Hannestestsuite', () => {
  
     const dashboardpage= new DashboardPage(page);
   
-    const roomviewpage= new RoomlistPage(page);
+    const roomviewpage= new RoomviewPage(page);
 
     const roomcreatepage= new RoomCreatePage(page);
   

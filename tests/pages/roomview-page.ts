@@ -1,7 +1,7 @@
 import {  type Locator, type Page } from '@playwright/test';
 
 
-export class RoomlistPage {
+export class RoomviewPage {
   
   readonly page: Page;
   readonly createroombutton: Locator;
