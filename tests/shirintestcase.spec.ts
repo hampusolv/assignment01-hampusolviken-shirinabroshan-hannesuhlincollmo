@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { faker } from '@faker-js/faker';
 import { LoginPage } from './pages/login-page';
 import { DashboardPage } from './pages/dashboard-page';
 import { ClientListPage } from './pages/clientlist-page';
 import { ClientCreatePage } from './pages/clientcreate-page';
 import { ClientEditPage } from './pages/editclient-page';
+import { FakerPage } from './pages/faker-page';
 
 test.describe('Shirin test suite ', () => {
   test.beforeEach(async ({ page }) => {
@@ -20,6 +22,7 @@ test.describe('Shirin test suite ', () => {
 
 
   test('TC5 Delete a client', async ({ page }) => {
+    await expect(page.locator("#app > header > div > h1 > a")).toHaveText("Tester Hotel");
 
     const dashboradpage = new DashboardPage(page);
     await dashboradpage.clickonviewlinkforclient();
@@ -44,6 +47,8 @@ test.describe('Shirin test suite ', () => {
 
     const clientedit = new ClientListPage(page);
     await clientedit.editclient();
+    await expect(page.locator('input[type="email"]')).not.toHaveValue('');
+
 
     const clientnewedit = new ClientEditPage(page);
     await clientnewedit.newdataeditclient();
@@ -54,6 +59,13 @@ test.describe('Shirin test suite ', () => {
     await clientnewedit.Mikaeleditclient();
     await expect(page.getByRole('heading', { name: 'Mikael Eriksson (#2)' })).toBeVisible();
 
+    //feker
+    const fakerdata = new FakerPage(page);
+    await fakerdata.fakerdataclient();
+    //delete faker
+    await fakerdata.deletefakerclient();
+
+    await expect(page.getByRole('heading', { name: 'Mikael Eriksson (#2)' })).toBeVisible();
   });
 
 });

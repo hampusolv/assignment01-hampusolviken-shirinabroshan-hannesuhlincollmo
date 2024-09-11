@@ -11,7 +11,6 @@ export class DashboardPage {
 
 
   //varibel
-
   constructor(page: Page) {
     this.page = page;
     this.viewroomlink = page.locator('div').filter({ hasText: /^RoomsNumber: 2View$/ }).getByRole('link');

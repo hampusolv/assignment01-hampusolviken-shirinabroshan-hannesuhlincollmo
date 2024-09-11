@@ -9,9 +9,6 @@ export class ClientCreatePage {
     readonly telephone: Locator;
     readonly savebutton: Locator;
 
-
-
-
     //varibel
     constructor(page: Page) {
         this.page = page;
@@ -21,7 +18,6 @@ export class ClientCreatePage {
         this.telephone = page.locator('div').filter({ hasText: /^Telephone$/ }).getByRole('textbox');
         this.savebutton = page.getByText('Save');
 
-        //getByRole('heading', { name: 'Mikael Eriksson (#2)'});
     }
 
     async createclient() {
