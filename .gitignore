@@ -5,10 +5,11 @@ node_modules/
 /playwright/.cache/
 .env
 .DS_Store
-/tests-examples
+/tests-examples/
 HannesRawtestfile.spec.ts
-*.txt
+*.txt 
 plan_project_txt.
 package-lock.json
 package.json
 README.md
+/raw_pages

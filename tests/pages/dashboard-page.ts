@@ -10,12 +10,10 @@ export class DashboardPage {
 
   constructor(page: Page) {
     this.page=page;
-
-
     this.roomlink=page.locator('#app > div > div > div:nth-child(1) > a');
     this.clientlink=page.locator('#app > div > div > div:nth-child(2) > a');
     this.billlink=page.locator('#app > div > div > div:nth-child(3) > a');
-    this.reservationlink=page.locator('#app > div > div > div:nth-child(3) > a');
+    this.reservationlink=page.locator('#app > div > div > div:nth-child(4) > a');
 
     
   }

@@ -26,7 +26,7 @@ export class RoomCreatePage {
   }
 
 
-   async creaateroom() {
+   async creaateroom(roomnumber:string=faker.string.numeric({ length: 3, exclude: ['0'] }),roomfloor: string=faker.string.numeric({ length: 2, exclude: ['0'] }),roomcost: string=faker.string.numeric({ length: 4, exclude: ['0'] })){
 
    await this.fieldroomcheckbox.click();
 
@@ -34,27 +34,15 @@ export class RoomCreatePage {
 
    await this.listroomfeauture.selectOption("Balcony");
 
-   const roomcost= faker.string.numeric({ length: { min: 1, max: 5 } })
-
-   const roomfloor=faker.string.numeric(1);
-
-   const roomnumber=faker.string.numeric({ length: { min: 1, max: 3 } })
+   await this.fieldroomnumber.fill(roomnumber);
 
    await this.fieldroomfloor.fill(roomfloor);
-
-   await this.fieldroomnumber.fill(roomnumber);
 
    await this.fieldroomprice.fill(roomcost);
 
    await this.listroomtype.selectOption('Twin');
 
    await this.listroomfeauture.selectOption("Penthouse");
-
-   await this.fieldroomfloor.fill(roomfloor);
-
-   await this.fieldroomnumber.fill(roomnumber);
-
-   await this.fieldroomprice.fill(roomcost);
 
    await this.savebutton.click();  
   }

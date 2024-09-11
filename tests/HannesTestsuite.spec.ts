@@ -4,11 +4,11 @@ import { LoginPage } from './pages/login-page';
 
 import { DashboardPage } from './pages/dashboard-page'; 
 
-import { RoomViewPage } from './pages/roomview-page';
+import { RoomlistPage } from './pages/roomview-page';
 
 import { RoomCreatePage } from './pages/roomcreate-page';
 
-
+import { faker } from "@faker-js/faker";
 
 test.describe('Hannestestsuite', () => {
   
@@ -26,7 +26,7 @@ test.describe('Hannestestsuite', () => {
   
     const dashboardpage= new DashboardPage(page);
 
-    const roompageview= new RoomViewPage(page);
+    const roompageview= new RoomlistPage(page);
   
     await expect(page.locator('#app > div > div > div:nth-child(1) > a')).toBeEnabled();
   
@@ -45,9 +45,9 @@ test.describe('Hannestestsuite', () => {
   });
 
   
-  test('TC3 Create a room and delete the room you created', async ({ page }) => {
+  test('TC3 Create two new room and delete the first room you created', async ({ page }) => {
   
-    const roompageview= new RoomViewPage(page);
+    const roompagelist= new RoomlistPage(page);
   
     const dashboardpage= new DashboardPage(page);
 
@@ -57,24 +57,35 @@ test.describe('Hannestestsuite', () => {
 
     await expect(page.getByRole('link', { name: 'Create Room' })).toBeEnabled();
 
-    await roompageview.clickoncreateroombutton();
+    await roompagelist.clickoncreateroombutton();
 
     await expect(page).toHaveURL('http://localhost:3000/room/new');
 
-    await roompagecreate.creaateroom();
+
+    const roomnumber=faker.string.numeric({ length: 3, exclude: ['0'] });
+
+    const roomfloor=faker.string.numeric({ length: 2, exclude: ['0'] });
+
+    const roomcost=faker.string.numeric({ length: 4, exclude: ['0'] });
+
+    await roompagecreate.creaateroom(roomnumber,roomfloor,roomcost);
 
     await expect(page).toHaveURL('http://localhost:3000/rooms');
 
-    await expect(page.getByText('Features: penthouse')).toBeVisible()
-  
-    await expect(page.getByText('Category: twin')).not.toBeHidden();
-  
-    await roompageview.deleteroom();
-  
-    await expect(page.getByText('Features: penthouse')).not.toBeVisible()
-  
-    await expect(page.getByText('Category: twin')).toBeHidden();
-  
+    await expect(page.locator('#app > div > div.rooms > div:nth-child(3) > div:nth-child(2) > div.category')).toHaveText('Category: twin');
+
+    await expect(page.locator('#app > div > div.rooms > div:nth-child(3) > div:nth-child(2) > div.features')).toHaveText('Features:  penthouse');
+
+    await expect(page.locator('#app > div > div.rooms > div:nth-child(3)')).toContainText(roomnumber);
+
+    await expect(page.locator('#app > div > div.rooms > div:nth-child(3)')).toContainText(roomfloor);
+
+    await expect(page.locator('#app > div > div.rooms > div:nth-child(3)')).toContainText(roomcost);
+
+    await roompagelist.deleteroom();
+
+    await expect(page.locator('#app > div > div.rooms > div:nth-child(3)')).toBeHidden();
+
   });
 
   
@@ -82,7 +93,7 @@ test.describe('Hannestestsuite', () => {
  
     const dashboardpage= new DashboardPage(page);
   
-    const roomviewpage= new RoomViewPage(page);
+    const roomviewpage= new RoomlistPage(page);
 
     const roomcreatepage= new RoomCreatePage(page);
   
