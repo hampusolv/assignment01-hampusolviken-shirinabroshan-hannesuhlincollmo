@@ -53,6 +53,7 @@ test.describe('Hampus-testsuite', () => {
     const billcreatepage = new BillcreatePage(page);
     await billcreatepage.createwronginput();
     await expect(page.getByText('Value must be greater than')).toBeVisible();
+    await expect(page.getByText('Value must be smaller than')).toBeHidden();
   });
 
 
