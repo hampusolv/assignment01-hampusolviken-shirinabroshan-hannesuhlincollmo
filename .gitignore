@@ -9,7 +9,4 @@ node_modules/
 HannesRawtestfile.spec.ts
 *.txt 
 plan_project_txt.
-package-lock.json
-package.json
-README.md
 /raw_pages
