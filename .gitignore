@@ -6,5 +6,4 @@ node_modules/
 .env
 /README.md
 /tests-examples
-package-lock.json
-package.json
+
