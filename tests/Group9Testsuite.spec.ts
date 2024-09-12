@@ -12,19 +12,19 @@ import { ClientEditPage } from './pages/Clientedit-page';
 
 import { ClientListPage } from './pages/Clientlist-Page';
 
-import { DashboardPage } from './Dashboard-page';
+import { DashboardPage } from './pages/Dashboard-page';
 
 import { FakerPage } from './pages/Faker-page';
 
 import { faker } from "@faker-js/faker";
 
-import { LoginPage } from './Login-page';
+import { LoginPage } from './pages/Login-page';
 
 import { ReservationvlistPage } from './pages/Reservationlist-page';
 
 import { RoomlistPage } from './pages/Roomlist-page';
 
-import { RoomCreatePage } from './Roomcreate-page';
+import { RoomCreatePage } from './pages/Roomcreate-page';
 
 
 test.describe('Hannes Hampus and Shirin Testsuite1', () => {
