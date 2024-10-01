@@ -6,6 +6,7 @@ node_modules/
 .DS_Store
 /tests-examples/
 HannesRawtestfile.spec.ts
-*.txt 
+*.txt
+.env
 plan_project_txt.
 /raw_pages
