@@ -35,7 +35,7 @@ test.describe('Hannes Hampus and Shirin Testsuite1', () => {
     console.log('Login user before each test');
     const loginpage = new LoginPage(page);
     await loginpage.goto();
-    await loginpage.performLogin(`${process.env.USERNAME}`,`${process.env.PASSWORD}`);
+    await loginpage.performLogin(`${process.env.TEST_USERNAME}`,`${process.env.TEST_PASSWORD}`);
   });
 
   test('TC1 Test login and see homepage', async ({ page }) => {

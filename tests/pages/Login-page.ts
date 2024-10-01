@@ -1,15 +1,15 @@
-import {  type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 
 import { faker } from "@faker-js/faker";
 
 export class LoginPage {
-  
+
   readonly page: Page;
   readonly usernameTextfield: Locator;
   readonly passwordTextfield: Locator;
   readonly loginButton: Locator;
 
-  
+
   constructor(page: Page) {
     this.page = page;
     this.usernameTextfield = page.locator('input[type="text"]');
@@ -19,30 +19,30 @@ export class LoginPage {
   }
 
 
-  
+
   async goto() {
     await this.page.goto(`${process.env.BASE_URL}`);
   }
 
   async performLogin(username: string, password: string) {
-    
+
     await this.usernameTextfield.fill(username);
     await this.passwordTextfield.fill(password);
     await this.loginButton.click();
   }
 
   async WrongperformLogin(badusername: string, badpassword: string) {
-   
 
-    badusername=faker.lorem.word(25);
 
-    badpassword=faker.internet.password({ length: 20 });
+    badusername = faker.lorem.word(25);
+
+    badpassword = faker.internet.password({ length: 20 });
 
     await this.usernameTextfield.fill(badusername);
     await this.passwordTextfield.fill(badpassword);
     await this.loginButton.click();
   }
 
-  
+
 
 }
